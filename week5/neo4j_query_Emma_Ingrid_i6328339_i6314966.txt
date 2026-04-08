@@ -1,0 +1,124 @@
+MATCH (p1:Player {name: 'Bob'})-[:FRIENDS_WITH]-(friend:Player)
+WHERE (p1)-[:PARTICIPATED_IN]->()<-[:PARTICIPATED_IN]-(friend)
+RETURN friend
+LIMIT 1;
+
+MATCH (player:Player {name: 'Alice'})-[:FRIENDS_WITH*1..2]-(friend:Player)
+MATCH (quest:Quest)<-[:PARTICIPATED_IN]-(player)
+RETURN quest;
+
+MATCH (p1:Player)-[:FRIENDS_WITH]-(p2:Player)
+WHERE NOT EXISTS {
+  MATCH (p1)-[:PARTICIPATED_IN]->(q:Quest)
+  WHERE (p2)-[:PARTICIPATED_IN]->(q)
+}
+RETURN p1, p2;
+
+MATCH p=()-[:DEFEATED]->() RETURN p LIMIT 25;
+
+MATCH (p:Player)
+WHERE p.name IN ['Bob', 'David', 'Eve']
+CREATE (p)-[:DEFEATED]->(enemy2);
+
+MATCH (p:Player)
+WHERE p.name IN ['Alice', 'Bob', 'Charlie']
+CREATE (p)-[:DEFEATED]->(enemy1);
+
+// Create two new enemy nodes with custom names
+CREATE (enemy1:Enemy {name: 'Wizard'})
+CREATE (enemy2:Enemy {name: 'Skeleton'});
+
+MATCH (q:Quest {name: 'Rescue the Trapped Miners'})<-[:PARTICIPATED_IN]-(p:Player)
+MATCH (p)-[:ENCOUNTERED]->(n:NPC)
+RETURN p.name AS PlayerName, n.name AS NPCName, n.dialogueOptions AS DialogueOptions;
+
+MATCH path = shortestPath((p1:Player {name: 'Alice'})-[:FRIENDS_WITH*]-(p2:Player {name: 'Bob'}))
+RETURN path;
+
+CREATE (:Player {name: 'Alice', id: 1, experience: 100, itemsCollected: ['Sword', 'Shield'], pointsScored: 250}),
+       (:Player {name: 'Bob', id: 2, experience: 120, itemsCollected: ['Bow', 'Potion of Healing'], pointsScored: 280}),
+       (:Player {name: 'Charlie', id: 3, experience: 80, itemsCollected: ['Sword', 'Potion of Healing'], pointsScored: 150}),
+       (:Player {name: 'David', id: 4, experience: 150, itemsCollected: ['Magic Staff', 'Shield'], pointsScored: 320}),
+       (:Player {name: 'Eve', id: 5, experience: 200, itemsCollected: ['Sword', 'Bow', 'Shield'], pointsScored: 400}),
+       (:Player {name: 'Frank', id: 6, experience: 90, itemsCollected: ['Potion of Healing'], pointsScored: 170}),
+       (:Player {name: 'Grace', id: 7, experience: 110, itemsCollected: ['Bow', 'Potion of Healing'], pointsScored: 220}),
+       (:Player {name: 'Hank', id: 8, experience: 70, itemsCollected: ['Magic Staff'], pointsScored: 120}),
+       (:Player {name: 'Ivy', id: 9, experience: 130, itemsCollected: ['Sword', 'Bow'], pointsScored: 270}),
+       (:Player {name: 'Jack', id: 10, experience: 180, itemsCollected: ['Magic Staff', 'Shield'], pointsScored: 350});
+
+
+
+// CREATE FRIENDSHIPS
+
+MATCH (p1:Player), (p2:Player)
+WHERE p1.id < p2.id
+WITH p1, p2
+LIMIT 18
+CREATE (p1)-[:FRIENDS_WITH]->(p2)
+CREATE (p2)-[:FRIENDS_WITH]->(p1);
+
+
+//CREATE QUESTS
+
+CREATE (:Quest {name: 'Retrieve the Lost Artifact', description: 'Find and retrieve the ancient artifact lost in the enchanted forest.', complexity: 'Moderate', playerLevelRequirement: 3, reward: 'Mystic Relic'}),
+(:Quest {name: 'Defend the Village', description: 'Protect the village from marauding bandits and monsters.', complexity: 'Difficult', playerLevelRequirement: 5, reward: 'Legendary Weapon'}),
+(:Quest {name: 'Uncover the Secret of the Forbidden Temple', description: 'Explore the enigmatic Forbidden Temple hidden deep in the mountains.', complexity: 'Challenging', playerLevelRequirement: 4, reward: 'Lost Knowledge'}),
+(:Quest {name: 'Rescue the Trapped Miners', description: 'Save the trapped miners from the treacherous mineshaft.', complexity: 'Easy', playerLevelRequirement: 2, reward: 'Precious Gems'}),
+(:Quest {name: 'Banish the Ancient Curse', description: 'Lift the ancient curse plaguing the cursed village.', complexity: 'Complex', playerLevelRequirement: 7, reward: 'Eternal Gratitude'});
+
+
+// PLAYERS PARTICIPATE IN QUESTS
+// Create 15 PARTICIPATED_IN relationships with the new quest names
+MATCH (p:Player), (q:Quest)
+WHERE q.name IN [
+  'Retrieve the Lost Artifact',
+  'Defend the Village',
+  'Uncover the Secret of the Forbidden Temple',
+  'Rescue the Trapped Miners',
+  'Banish the Ancient Curse'
+]
+WITH p, q
+LIMIT 15
+CREATE (p)-[:PARTICIPATED_IN {
+  itemsCollected: CASE
+    WHEN q.name = 'Retrieve the Lost Artifact' THEN ['Sword', 'Potion']
+    WHEN q.name = 'Defend the Village' THEN ['Bow', 'Arrows']
+    WHEN q.name = 'Uncover the Secret of the Forbidden Temple' THEN ['Shield', 'Magic Staff']
+    WHEN q.name = 'Rescue the Trapped Miners' THEN ['Potion of Healing', 'Bow']
+    WHEN q.name = 'Banish the Ancient Curse' THEN ['Magic Staff', 'Sword']
+    ELSE []
+  END,
+  pointsScored: CASE
+    WHEN q.name = 'Retrieve the Lost Artifact' THEN 100
+    WHEN q.name = 'Defend the Village' THEN 150
+    WHEN q.name = 'Uncover the Secret of the Forbidden Temple' THEN 200
+    WHEN q.name = 'Rescue the Trapped Miners' THEN 120
+    WHEN q.name = 'Banish the Ancient Curse' THEN 180
+    ELSE 0
+  END,
+  timeTaken: CASE
+    WHEN q.name = 'Retrieve the Lost Artifact' THEN '2 hours'
+    WHEN q.name = 'Defend the Village' THEN '3 hours'
+    WHEN q.name = 'Uncover the Secret of the Forbidden Temple' THEN '4 hours'
+    WHEN q.name = 'Rescue the Trapped Miners' THEN '2.5 hours'
+    WHEN q.name = 'Banish the Ancient Curse' THEN '3.5 hours'
+    ELSE '0 hours'
+  END
+}]->(q);
+
+
+
+//CREATE NPCS
+
+CREATE (:NPC {name: 'Eldrin', dialogueOptions: ["Greetings, traveler.", "Beware the forest dangers.", "I've seen the amulet before."]}),
+       (:NPC {name: 'Zara', dialogueOptions: ["Hello, adventurer.", "Help us defeat the dark mage.", "Thank you for your bravery."]}),
+       (:NPC {name: 'Sylas', dialogueOptions: ["Please help! Bandits took my family.", "You saved us! Thank you.", "Be careful in the cave."]}),
+       (:NPC {name: 'Lorelei', dialogueOptions: ["Welcome, stranger.", "The dark forces are rising.", "Find the ancient texts."]}),
+       (:NPC {name: 'Kael', dialogueOptions: ["Greetings, traveler.", "Uncover the mysteries of our land.", "The amulet holds great power."]});
+
+// ENCOUNTERS WITH PLAYERS
+
+MATCH (p:Player), (n:NPC)
+WHERE p.name IN ['Alice', 'Bob', 'Charlie', 'David', 'Eve']
+AND n.name IN ['Eldrin', 'Zara', 'Sylas', 'Lorelei', 'Kael']
+CREATE (p)-[:ENCOUNTERED]->(n);

@@ -1,0 +1,445 @@
+{
+    "entities": [
+        {
+            "name": "Dialogue",
+            "type": "dialogue",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "npc_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "player_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "text",
+                    "datatype": "string",
+                    "value_source": "dialogues"
+                }
+            ]
+        },
+        {
+            "name": "Guild",
+            "type": "guild",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "guild_names"
+                },
+                {
+                    "name": "leader_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "founded_date",
+                    "datatype": "datetime"
+                },
+                {
+                    "name": "members",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Player",
+            "type": "player",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "first_name",
+                    "datatype": "string",
+                    "value_source": "first_names"
+                },
+                {
+                    "name": "last_name",
+                    "datatype": "string",
+                    "value_source": "last_names"
+                },
+                {
+                    "name": "class_name", 
+                    "datatype": "string",
+                    "value_source": "class_names"
+                },
+                {
+                    "name": "guild_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "item_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "last_login",
+                    "datatype": "datetime"
+                },
+                {
+                    "name": "kingdom_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "experience",
+                    "datatype": "int"
+                },
+                {
+                    "name": "health",
+                    "datatype": "int"
+                },
+                {
+                    "name": "level",
+                    "datatype": "int"
+                },
+                {
+                    "name": "gold",
+                    "datatype": "int"
+                }
+
+            ]
+        },
+        {
+            "name": "Item",
+            "type": "item",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "item_names"
+                },
+                {
+                    "name": "description",
+                    "datatype": "string",
+                    "value_source": "item_types"
+                },
+                {
+                    "name": "price",
+                    "datatype": "int"
+                },
+                {
+                    "name": "required_level",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Enemy",
+            "type": "enemy",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "enemy_names"
+                },
+                {
+                    "name": "type",
+                    "datatype": "string",
+                    "value_source": "enemy_types"
+                },
+                {
+                    "name": "level",
+                    "datatype": "int"
+                },
+                {
+                    "name": "health",
+                    "datatype": "int"
+                },
+                {
+                    "name": "attack",
+                    "datatype": "int"
+                },
+                {
+                    "name": "defense",
+                    "datatype": "int"
+                },
+                {
+                    "name": "drop_items",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Team",
+            "type": "team",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "team_names"
+                },
+                {
+                    "name": "leader_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "member_count",
+                    "datatype": "int"
+                },
+                {
+                    "name": "kingdom_id",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Event",
+            "type": "event",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "event_names"
+                },
+                {
+                    "name": "event_date",
+                    "datatype": "datetime"
+                }
+            ]
+        },
+        {
+            "name": "NPC",
+            "type": "npc",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "first_names"
+                },
+                {
+                    "name": "type",
+                    "datatype": "string",
+                    "value_source": "npc_types"
+                },
+                {
+                    "name": "location",
+                    "datatype": "string",
+                    "value_source":"kingdom_names"
+                },
+                {
+                    "name": "dialogue_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "quest_id",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Kingdom",
+            "type": "kingdom",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source": "kingdom_names"
+                },
+                {
+                    "name": "ruler_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "population",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Ruler",
+            "type": "ruler",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source":"first_names"
+                },
+                {
+                    "name": "kingdom_id",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Combat",
+            "type": "combat",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "player_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "enemy_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "turns",
+                    "datatype": "int"
+                },
+                {
+                    "name": "winner_id",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Transaction",
+            "type": "transaction",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "sender_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "receiver_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "item_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "kingdom_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "amount",
+                    "datatype": "int"
+                },
+                {
+                    "name": "timestamp",
+                    "datatype": "datetime"
+                }
+            ]
+        },
+        {
+            "name": "Quest",
+            "type": "quest",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source":"first_names"
+                },
+                {
+                    "name": "reward",
+                    "datatype": "int"
+                },
+                {
+                    "name": "player_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "difficulty",
+                    "datatype": "int"
+                },
+                {
+                    "name": "completition_time",
+                    "datatype": "int"
+                }
+            ]
+        },
+        {
+            "name": "Groupchat",
+            "type": "groupchat",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "name",
+                    "datatype": "string",
+                    "value_source":"first_names"
+                }
+            ]
+        },
+        {
+            "name": "Chat",
+            "type": "chat",
+            "fields": [
+                {
+                    "name": "id",
+                    "datatype": "int",
+                    "type": "primary_key"
+                },
+                {
+                    "name": "sender_id",
+                    "datatype": "int"
+                },
+                {
+                    "name": "name",
+                    "datatype": "String",
+                    "value_source":"first_names"
+                },
+                {
+                    "name": "message",
+                    "datatype": "String"
+                }
+            ]
+        }
+    ]
+}
