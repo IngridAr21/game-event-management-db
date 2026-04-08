@@ -3,7 +3,6 @@
 
 An end-to-end database system for managing an MMORPG game world, covering the full data engineering lifecycle — from schema design and data wrangling to advanced analytics and graph databases.
 
-Built as a 5-week project at Maastricht University (2023).
 
 ---
 
